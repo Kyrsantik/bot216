@@ -10,7 +10,7 @@ days = ["Понедельник", "Вторник", "Среда", "Четвер�
 user_ids = set()
 # Глобальная переменная для хранения текущей базы данных (четная/нечетная неделя)
 current_db = "ch.db"  # По умолчанию четная неделя
-
+last_messages = {}
 
 # Функция получения данных из таблицы по дню недели
 def get_schedule_by_day(day):
@@ -112,9 +112,20 @@ def week_selected(call):
 # Обработчик выбора дня недели
 @bot.callback_query_handler(func=lambda call: call.data.startswith("day_"))
 def day_selected(call):
-    day = call.data[4:]  # Извлекаем название дня
-    schedule = get_schedule_by_day(day)  # Получаем расписание из таблицы
-    bot.send_message(call.message.chat.id, schedule)
+    day = call.data[4:]
+    schedule = get_schedule_by_day(day)
+
+    try:
+        # Удаляем предыдущее сообщение с расписанием если оно есть
+        if call.message.chat.id in last_messages:
+            bot.delete_message(chat_id=call.message.chat.id,
+                               message_id=last_messages[call.message.chat.id])
+    except Exception as e:
+        print(f"Ошибка при удалении сообщения: {e}")
+
+    # Отправляем новое сообщение и сохраняем его ID
+    sent_message = bot.send_message(call.message.chat.id, schedule)
+    last_messages[call.message.chat.id] = sent_message.message_id
 
 
 # Обработчик кнопки "⬅ Назад"
