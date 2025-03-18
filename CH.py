@@ -1,11 +1,11 @@
-import sqlite3
+
 
 import sqlite3
 import os
 
 # Удаляем старую базу данных, если она существует
-if os.path.exists('ch.db'):
-    os.remove('ch.db')
+if os.path.exists('CH.db'):
+    os.remove('CH.db')
 connection = sqlite3.connect('ch.db')
 cursor = connection.cursor()
 
@@ -85,3 +85,6 @@ connection.commit()
 connection.close()
 
 print("База данных с расписанием успешно создана!")
+
+
+
