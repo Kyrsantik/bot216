@@ -2,7 +2,7 @@ import telebot
 import sqlite3
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, BotCommand
 
-TOKEN = "7221205358:AAEzSNTzm7dUvis2WCqkplUwLxlc6TDjek8"
+TOKEN = "XXXXXXXXX"
 bot = telebot.TeleBot(TOKEN)
 
 # Устанавливаем команды бота
